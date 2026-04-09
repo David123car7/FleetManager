@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: cutlass
+      POSTGRES_PASSWORD: black 
+      POSTGRES_DB: fleet-manager-db
+    ports:
+      - "5432:5432"
+
