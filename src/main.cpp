@@ -5,13 +5,12 @@
 #include <pqxx/pqxx>
 
 int main() {
-  pqxx::connection cx{
-      "postgresql://cutlass:black@localhost:5432/fleet-manager-db"};
+  auto dbConnection = std::make_shared<pqxx::connection>(
+      "postgresql://cutlass:black@localhost:5432/fleet-manager-db");
 
-  auto usersService = std::make_shared<UsersService>();
+  auto usersService = std::make_shared<UsersService>(dbConnection);
+
   UsersController usersController(usersService);
-
-  pqxx::work tx{cx};
 
   crow::SimpleApp app;
 
