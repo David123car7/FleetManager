@@ -1,4 +1,5 @@
 #include "FleetManager/Controllers/UsersController.h"
+#include "FleetManager/Middlewares/AuthMiddleware.h"
 #include "FleetManager/Services/UsersService.h"
 #include <crow/app.h>
 #include <memory>
@@ -12,7 +13,7 @@ int main() {
 
   UsersController usersController(usersService);
 
-  crow::SimpleApp app;
+  crow::App<AuthMiddleware> app;
 
   usersController.Start(app);
 

@@ -3,7 +3,10 @@ project(FleetManager)
 set(CMAKE_CXX_STANDARD_20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) #for the nvim lsp see cmake 
 
-add_executable(FleetManager src/main.cpp src/Services/UsersService.cpp src/Controllers/UsersController.cpp)
+add_subdirectory(src/Controllers)
+add_subdirectory(src/Middlewares)
+add_subdirectory(src/Services)
+add_executable(FleetManager src/main.cpp)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -19,4 +22,4 @@ FetchContent_Declare(
 )
 
 target_include_directories(FleetManager PRIVATE include) 
-target_link_libraries(FleetManager PRIVATE pqxx)
+target_link_libraries(FleetManager PRIVATE pqxx Controllers Middlewares Services) 
