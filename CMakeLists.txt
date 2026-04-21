@@ -3,23 +3,14 @@ project(FleetManager)
 set(CMAKE_CXX_STANDARD_20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) #for the nvim lsp see cmake 
 
+find_package(Crow REQUIRED)
+find_package(libpqxx REQUIRED)
+find_package(PostgreSQL REQUIRED)
+
 add_subdirectory(src/Controllers)
 add_subdirectory(src/Middlewares)
 add_subdirectory(src/Services)
 add_executable(FleetManager src/main.cpp)
 
-include(FetchContent)
-FetchContent_Declare(
-  libpqxx
-  GIT_REPOSITORY https://github.com/jtv/libpqxx.git
-  GIT_TAG        8.0.1 
-)
-
-FetchContent_Declare(
-  crow
-  GIT_REPOSITORY git@github.com:CrowCpp/Crow.git
-  GIT_TAG 1.3.2
-)
-
 target_include_directories(FleetManager PRIVATE include) 
-target_link_libraries(FleetManager PRIVATE pqxx Controllers Middlewares Services) 
+target_link_libraries(FleetManager PRIVATE gssapi_krb5 libpqxx::pqxx Crow::Crow Controllers Middlewares Services) 
