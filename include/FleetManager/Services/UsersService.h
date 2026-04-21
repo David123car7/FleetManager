@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FleetManager/Entitys/User.h"
+#include "FleetManager/Common/Entitys/User.h"
 #include "FleetManager/Interfaces/IUsersService.h"
 #include "memory"
 #include "pqxx/pqxx"

@@ -1,5 +1,5 @@
 #include "FleetManager/Services/UsersService.h"
-#include "FleetManager/Entitys/User.h"
+#include "FleetManager/Common/Entitys/User.h"
 
 UsersService::UsersService(std::shared_ptr<pqxx::connection> connection)
     : dbConnection{connection} {

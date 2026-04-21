@@ -1,7 +1,11 @@
 #pragma once
 
+#include "FleetManager/Common/Models/Result.h"
 #include "FleetManager/Interfaces/IUsersService.h"
 #include <crow/app.h>
+#include <crow/common.h>
+#include <crow/http_response.h>
+#include <crow/json.h>
 #include <memory>
 
 class UsersController {
@@ -27,6 +31,7 @@ template <class... T> void UsersController::Register(crow::App<T...> &app) {
         }
         User user(x);
         usersService->Register(user);
-        return crow::response(crow::status::ACCEPTED);
+        Result res{crow::status::OK, "User registered"};
+        return crow::response(res.toJson());
       });
 }
