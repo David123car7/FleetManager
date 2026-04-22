@@ -5,6 +5,10 @@
 #include <memory>
 #include <pqxx/pqxx>
 
+using Fleet::Controllers::UsersController;
+using Fleet::Middlewares::AuthMiddleware;
+using Fleet::Services::UsersService;
+
 int main() {
   auto dbConnection = std::make_shared<pqxx::connection>(
       "postgresql://cutlass:black@localhost:5432/fleet-manager-db");

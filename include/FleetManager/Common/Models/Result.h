@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 
+namespace Fleet::Models {
 template <class T = std::nullptr_t> struct Result {
   const std::optional<T> data;
   const std::string_view message;
@@ -24,3 +25,4 @@ template <class T = std::nullptr_t> struct Result {
     return json;
   }
 };
+} // namespace Fleet::Models

@@ -1,6 +1,9 @@
 #include "FleetManager/Services/UsersService.h"
 #include "FleetManager/Common/Entitys/User.h"
 
+using Fleet::Entitys::User;
+
+namespace Fleet::Services {
 UsersService::UsersService(std::shared_ptr<pqxx::connection> connection)
     : dbConnection{connection} {
   if (connection == nullptr)
@@ -13,3 +16,4 @@ void UsersService::Register(User &user) {
           pqxx::params{user.email, user.password});
   tx.commit();
 }
+} // namespace Fleet::Services

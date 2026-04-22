@@ -7,8 +7,10 @@
 #include <crow/json.h>
 #include <memory>
 
+namespace Fleet::Controllers {
 UsersController::UsersController(std::shared_ptr<IUsersService> usersService)
     : usersService{usersService} {
   if (usersService == nullptr)
     throw 0;
 }
+} // namespace Fleet::Controllers

@@ -3,12 +3,18 @@
 #include "FleetManager/Common/Models/Errors/UserError.h"
 #include "FleetManager/Common/Models/Result.h"
 #include "FleetManager/Interfaces/IUsersService.h"
+#include "FleetManager/Services/UsersService.h"
 #include <crow/app.h>
 #include <crow/common.h>
 #include <crow/http_response.h>
 #include <crow/json.h>
 #include <memory>
 
+using Fleet::Interfaces::IUsersService;
+using Fleet::Models::Result;
+using Fleet::Models::Errors::UserError;
+
+namespace Fleet::Controllers {
 class UsersController {
 private:
   std::shared_ptr<IUsersService> usersService = nullptr;
@@ -30,9 +36,10 @@ template <class... T> void UsersController::Register(crow::App<T...> &app) {
         if (!x) {
           return crow::response(crow::status::BAD_REQUEST);
         }
-        User user(x);
+        Fleet::Entitys::User user(x);
         usersService->Register(user);
         Result res{UserError::InvalidEmail()};
         return crow::response(crow::status::OK, res);
       });
 }
+} // namespace Fleet::Controllers

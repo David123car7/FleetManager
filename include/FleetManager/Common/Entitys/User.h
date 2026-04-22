@@ -4,6 +4,7 @@
 #include <crow/json.h>
 #include <string>
 
+namespace Fleet::Entitys {
 struct User {
   std::string email;
   std::string password;
@@ -13,3 +14,4 @@ struct User {
     password = body["password"].s();
   }
 };
+} // namespace Fleet::Entitys
