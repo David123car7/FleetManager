@@ -4,26 +4,23 @@
 #include <cstddef>
 #include <optional>
 #include <string>
+#include <string_view>
 
 template <class T = std::nullptr_t> struct Result {
   const std::optional<T> data;
-  const int statusCode;
-  const std::string message;
+  const std::string_view message;
 
-  Result(T data, int statusCode, std::string message)
-      : data{data}, statusCode{statusCode}, message{message} {}
+  Result(T data, std::string_view message) : data{data}, message{message} {}
+  Result(std::string_view message) : data{nullptr}, message{message} {}
 
-  Result(int statusCode, std::string message)
-      : data{nullptr}, statusCode{statusCode}, message{message} {}
-
-  crow::json::wvalue toJson() const {
+  operator crow::json::wvalue() {
     crow::json::wvalue json;
     if (data.has_value())
       json["data"] = data.value();
     else
       json["data"] = nullptr;
-    json["statusCode"] = statusCode;
-    json["message"] = message;
+    std::string msg{message};
+    json["message"] = msg;
     return json;
   }
 };

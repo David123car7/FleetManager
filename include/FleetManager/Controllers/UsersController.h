@@ -1,5 +1,6 @@
 #pragma once
 
+#include "FleetManager/Common/Models/Errors/UserError.h"
 #include "FleetManager/Common/Models/Result.h"
 #include "FleetManager/Interfaces/IUsersService.h"
 #include <crow/app.h>
@@ -31,7 +32,7 @@ template <class... T> void UsersController::Register(crow::App<T...> &app) {
         }
         User user(x);
         usersService->Register(user);
-        Result res{crow::status::OK, "User registered"};
-        return crow::response(res.toJson());
+        Result res{UserError::InvalidEmail()};
+        return crow::response(crow::status::OK, res);
       });
 }
