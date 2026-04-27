@@ -10,6 +10,7 @@ private:
 
 public:
   UserError() = delete;
+  static UserError EmailAllreadyExists() { return UserError("email_exists"); }
   static UserError InvalidEmail() { return UserError("invalid_email"); }
   static UserError InvalidPassword() { return UserError("invalid_password"); }
 };
