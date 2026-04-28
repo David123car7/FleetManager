@@ -5,21 +5,18 @@
 #include <cstddef>
 #include <optional>
 #include <string>
-#include <string_view>
 
 namespace Fleet::Models {
 template <class T = std::nullptr_t> struct Result {
   const std::optional<T> data;
-  const std::string_view message;
+  const std::string message;
   int httpCode;
-  bool sucess;
 
-  Result(T data, std::string_view message, int httpCode, bool sucess)
-      : data{data}, message{message}, httpCode{httpCode}, sucess{sucess} {}
-  Result(std::string_view message, int httpCode, bool sucess)
-      : data{nullptr}, message{message}, httpCode{httpCode}, sucess{sucess} {}
-  Result(bool sucess)
-      : data{nullptr}, message{""}, httpCode{200}, sucess{sucess} {}
+  Result(T data, std::string message, int httpCode)
+      : data{data}, message{message}, httpCode{httpCode} {}
+  Result(std::string message, int httpCode)
+      : data{nullptr}, message{message}, httpCode{httpCode} {}
+  Result(int httpCode) : data{nullptr}, message{""}, httpCode{httpCode} {}
 
   operator crow::json::wvalue() {
     crow::json::wvalue json;
@@ -27,8 +24,7 @@ template <class T = std::nullptr_t> struct Result {
       json["data"] = data.value();
     else
       json["data"] = nullptr;
-    std::string msg{message};
-    json["message"] = msg;
+    json["message"] = message;
     return json;
   }
 };

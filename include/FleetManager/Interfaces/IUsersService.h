@@ -12,7 +12,7 @@ namespace Fleet::Interfaces {
 class IUsersService {
 public:
   virtual Result<> Register(User &user) = 0;
-  virtual Result<std::string> Login(LoginRequest req);
+  virtual Result<std::string> Login(LoginRequest req) = 0;
   virtual ~IUsersService() = default;
 };
 } // namespace Fleet::Interfaces

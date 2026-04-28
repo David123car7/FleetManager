@@ -57,8 +57,8 @@ template <class... T> void UsersController::Login(crow::App<T...> &app) {
         if (!x) {
           return crow::response(crow::status::BAD_REQUEST);
         }
-        std::string token = req.get_header_value("Authorization");
-        Result res{token, 200, true};
+        LoginRequest loginReq{x};
+        auto res = usersService->Login(loginReq);
         return crow::response(res.httpCode, res);
       });
 }
