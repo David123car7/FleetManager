@@ -20,3 +20,4 @@ cmake --build build
 
 - [Crow](https://github.com/CrowCpp/Crow)
 - [libpqxx](https://github.com/jtv/libpqxx)
+- [Botan](https://github.com/randombit/botan)
