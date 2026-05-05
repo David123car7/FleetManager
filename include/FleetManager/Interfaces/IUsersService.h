@@ -9,8 +9,7 @@ using Fleet::Models::Result;
 using Fleet::Models::Requests::Users::LoginRequest;
 
 namespace Fleet::Interfaces {
-class IUsersService {
-public:
+struct IUsersService {
   virtual Result<> Register(User &user) = 0;
   virtual Result<std::string> Login(LoginRequest req) = 0;
   virtual ~IUsersService() = default;

@@ -11,9 +11,11 @@ using Fleet::Entitys::User;
 namespace Fleet::Services {
 Result<> UsersService::Register(User &user) {
   pqxx::work tx{*dbConnection};
+  std::string passwordHash = encryption->EncryptPassword();
+
   try {
     tx.exec("INSERT INTO Users (email, password) VALUES ($1, $2)",
-            pqxx::params{user.email, user.password});
+            pqxx::params{user.email, passwordHash});
     tx.commit();
   } catch (pqxx::sql_error sql_error) {
     if (sql_error.sqlstate() == "23505")

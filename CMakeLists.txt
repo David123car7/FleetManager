@@ -6,6 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON) #for the nvim lsp see cmake
 find_package(Crow REQUIRED)
 find_package(libpqxx REQUIRED)
 find_package(PostgreSQL REQUIRED)
+find_package(libsodium REQUIRED)
 
 add_subdirectory(src/Controllers)
 add_subdirectory(src/Middlewares)
@@ -13,4 +14,4 @@ add_subdirectory(src/Services)
 add_executable(FleetManager src/main.cpp)
 
 target_include_directories(FleetManager PRIVATE include) 
-target_link_libraries(FleetManager PRIVATE gssapi_krb5 libpqxx::pqxx Crow::Crow Controllers Middlewares Services) 
+target_link_libraries(FleetManager PRIVATE libsodium::libsodium gssapi_krb5 libpqxx::pqxx Crow::Crow Controllers Middlewares Services) 
