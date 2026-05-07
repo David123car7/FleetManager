@@ -1,16 +1,20 @@
 #include "FleetManager/Services/EncryptionService.h"
 #include <sodium.h>
 #include <sodium/crypto_pwhash.h>
+#include <stdexcept>
 
-std::string EncryptionService::EncryptPassword() {
-  std::string password = "kazzio";
-  unsigned char out[crypto_box_SEEDBYTES];
-  unsigned char salt[crypto_pwhash_SALTBYTES];
-  randombytes_buf(salt, sizeof salt);
-  crypto_pwhash(out, sizeof out, password.c_str(), password.size(), salt,
-                crypto_pwhash_OPSLIMIT_INTERACTIVE,
-                crypto_pwhash_MEMLIMIT_INTERACTIVE, crypto_pwhash_ALG_DEFAULT);
-  return std::string(reinterpret_cast<char *>(out), sizeof out);
+std::string EncryptionService::EncryptPassword(const std::string &password) {
+  char hashed_password[crypto_pwhash_STRBYTES];
+  if (crypto_pwhash_str(hashed_password, password.c_str(), password.size(),
+                        crypto_pwhash_OPSLIMIT_SENSITIVE,
+                        crypto_pwhash_MEMLIMIT_SENSITIVE) != 0) {
+    throw std::runtime_error("Out of memory while hashing password");
+  }
+  return std::string(hashed_password, sizeof hashed_password);
 }
 
-std::string EncryptionService::DecryptPassword() { return {}; }
+bool EncryptionService::IsPasswordValid(const std::string &hashedPassword,
+                                        const std::string &password) {
+  return !crypto_pwhash_str_verify(hashedPassword.c_str(), password.c_str(),
+                                   password.size());
+}

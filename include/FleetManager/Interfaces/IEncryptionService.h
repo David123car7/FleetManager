@@ -4,8 +4,9 @@
 
 namespace Fleet::Interfaces {
 struct IEncryptionService {
-  virtual std::string EncryptPassword() = 0;
-  virtual std::string DecryptPassword() = 0;
+  virtual std::string EncryptPassword(const std::string &password) = 0;
+  virtual bool IsPasswordValid(const std::string &hashedPassword,
+                               const std::string &password) = 0;
   virtual ~IEncryptionService() = default;
 };
 } // namespace Fleet::Interfaces

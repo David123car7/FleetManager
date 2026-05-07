@@ -20,7 +20,7 @@ private:
 public:
   UsersService(std::shared_ptr<pqxx::connection> connection,
                std::shared_ptr<IEncryptionService> encryption)
-      : dbConnection{connection} {
+      : dbConnection{connection}, encryption{encryption} {
     if (connection == nullptr)
       throw std::invalid_argument("Invalid connection");
     if (encryption == nullptr)

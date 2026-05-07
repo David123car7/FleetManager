@@ -11,11 +11,10 @@ using Fleet::Entitys::User;
 namespace Fleet::Services {
 Result<> UsersService::Register(User &user) {
   pqxx::work tx{*dbConnection};
-  std::string passwordHash = encryption->EncryptPassword();
-
+  std::string hashedPassword = encryption->EncryptPassword(user.password);
   try {
     tx.exec("INSERT INTO Users (email, password) VALUES ($1, $2)",
-            pqxx::params{user.email, passwordHash});
+            pqxx::params{user.email, hashedPassword});
     tx.commit();
   } catch (pqxx::sql_error sql_error) {
     if (sql_error.sqlstate() == "23505")
@@ -32,7 +31,7 @@ Result<std::string> UsersService::Login(LoginRequest req) {
     pqxx::work tx{*dbConnection};
     std::string storedPassword = tx.query_value<std::string>(
         "SELECT password FROM Users WHERE email = $1", pqxx::params{req.email});
-    if (storedPassword == req.password) {
+    if (encryption->IsPasswordValid(storedPassword, req.password)) {
       return Result<std::string>::Sucess(200);
     } else
       return Result<std::string>::Failure(UserError::WrongPassword(),
