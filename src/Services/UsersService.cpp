@@ -11,7 +11,7 @@ using Fleet::Entitys::User;
 namespace Fleet::Services {
 Result<> UsersService::Register(User &user) {
   pqxx::work tx{*dbConnection};
-  std::string hashedPassword = encryption->EncryptPassword(user.password);
+  std::string hashedPassword = encryption->HashPassword(user.password);
   try {
     tx.exec("INSERT INTO Users (email, password) VALUES ($1, $2)",
             pqxx::params{user.email, hashedPassword});
