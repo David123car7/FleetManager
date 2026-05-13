@@ -4,6 +4,8 @@
 #include "FleetManager/Interfaces/IUsersService.h"
 #include <crow/common.h>
 #include <exception>
+#include <jwt-cpp/jwt.h>
+#include <jwt-cpp/traits/nlohmann-json/traits.h>
 #include <string>
 
 using Fleet::Entitys::User;
@@ -23,6 +25,7 @@ Result<> UsersService::Register(User &user) {
   } catch (std::exception e) {
     throw e;
   }
+  tx.commit();
   return Result<>::Sucess();
 }
 
@@ -32,7 +35,17 @@ Result<std::string> UsersService::Login(LoginRequest req) {
     std::string storedPassword = tx.query_value<std::string>(
         "SELECT password FROM Users WHERE email = $1", pqxx::params{req.email});
     if (encryption->IsPasswordValid(storedPassword, req.password)) {
-      return Result<std::string>::Sucess(200);
+      const auto time = jwt::date::clock::now();
+      const auto token = jwt::create<jwt::traits::nlohmann_json>()
+                             .set_type("JWT")
+                             .set_id(req.email)
+                             .set_issuer("FleetManager")
+                             .set_audience("FlletManagerClient")
+                             .set_payload_claim("user_id", req.email)
+                             .set_issued_at(time)
+                             .set_expires_at(time + std::chrono::minutes{2})
+                             .sign(jwt::algorithm::none{});
+      return Result<std::string>::Sucess(200, token);
     } else
       return Result<std::string>::Failure(UserError::WrongPassword(),
                                           crow::status::UNAUTHORIZED);

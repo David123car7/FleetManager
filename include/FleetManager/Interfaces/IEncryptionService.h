@@ -1,5 +1,4 @@
 #pragma once
-#include <sodium/core.h>
 #include <string>
 
 namespace Fleet::Interfaces {

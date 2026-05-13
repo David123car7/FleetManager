@@ -4,6 +4,6 @@ CREATE SCHEMA if NOT EXISTS public;
 
 CREATE table if not EXISTS Users (
   email VARCHAR(50) UNIQUE,
-  password VARCHAR(50)
+  password VARCHAR(250)
 );
 
