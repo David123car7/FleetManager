@@ -21,3 +21,5 @@ cmake --build build
 - [Crow](https://github.com/CrowCpp/Crow)
 - [libpqxx](https://github.com/jtv/libpqxx)
 - [LibSodium](https://github.com/jedisct1/libsodium)
+- [jwt-cpp](https://github.com/Thalhammer/jwt-cpp)
+- [nlohmann_json](https://github.com/nlohmann/json) 
