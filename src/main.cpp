@@ -31,6 +31,7 @@ int main() {
   AuthController authController(authService);
 
   crow::App<AuthMiddleware> app;
+  app.get_middleware<AuthMiddleware>() = AuthMiddleware(jwtService);
 
   authController.Start(app);
 

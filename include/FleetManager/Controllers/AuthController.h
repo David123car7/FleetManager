@@ -1,5 +1,6 @@
 #pragma once
 
+#include "FleetManager/Common/Constants/Routes.h"
 #include "FleetManager/Common/Models/Errors/AuthError.h"
 #include "FleetManager/Common/Models/Errors/UserError.h"
 #include "FleetManager/Common/Models/Results/Result.h"
@@ -23,7 +24,6 @@ private:
   std::shared_ptr<IAuthService> authService = nullptr;
   template <class... T> void Register(crow::App<T...> &app);
   template <class... T> void Login(crow::App<T...> &app);
-  template <class... T> void IsAuthenticated(crow::App<T...> &app);
 
 public:
   AuthController(std::shared_ptr<IAuthService> authService)
@@ -38,11 +38,10 @@ public:
 template <class... T> void AuthController::Start(crow::App<T...> &app) {
   Register(app);
   Login(app);
-  IsAuthenticated(app);
 }
 
 template <class... T> void AuthController::Register(crow::App<T...> &app) {
-  CROW_ROUTE(app, "/register")
+  CROW_ROUTE(app, Constants::Routes::RegisterRoute)
       .methods("POST"_method)([this](const crow::request &req) {
         auto x = crow::json::load(req.body);
         if (!x) {
@@ -55,7 +54,7 @@ template <class... T> void AuthController::Register(crow::App<T...> &app) {
 }
 
 template <class... T> void AuthController::Login(crow::App<T...> &app) {
-  CROW_ROUTE(app, "/login")
+  CROW_ROUTE(app, Constants::Routes::LoginRoute)
       .methods("POST"_method)([this](const crow::request &req) {
         auto x = crow::json::load(req.body);
         if (!x) {
@@ -64,24 +63,6 @@ template <class... T> void AuthController::Login(crow::App<T...> &app) {
         LoginRequest loginReq{x};
         auto res = authService->Login(loginReq);
         return crow::response(res.GetHttpCode(), res);
-      });
-}
-
-template <class... T>
-void AuthController::IsAuthenticated(crow::App<T...> &app) {
-  CROW_ROUTE(app, "/authenticated")
-      .methods("GET"_method)([this](const crow::request &req) {
-        std::string token = req.get_header_value("Authorization");
-        if (token.empty())
-          return crow::response(
-              crow::status::UNAUTHORIZED,
-              Result<>::Failure(AuthError::AuthHeaderMissing()));
-        if (!authService->IsAuthenticated(token))
-          return crow::response(
-              crow::status::UNAUTHORIZED,
-              Result<>::Failure(AuthError::InvalidAuthToken()));
-        else
-          return crow::response(crow::status::OK);
       });
 }
 } // namespace Fleet::Controllers

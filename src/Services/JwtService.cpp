@@ -15,7 +15,7 @@ std::string JwtService::CreateJwtToken(std::string &userId) {
       .sign(jwt::algorithm::hs256{"secret"});
 }
 
-bool JwtService::VerifyJwtToken(std::string &token) {
+bool JwtService::IsJwtTokenValid(std::string &token) {
   try {
     auto decoded = jwt::decode<jwt::traits::nlohmann_json>(token);
     jwt::verify<jwt::traits::nlohmann_json>()

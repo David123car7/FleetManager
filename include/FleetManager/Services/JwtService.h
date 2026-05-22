@@ -8,6 +8,6 @@ namespace Fleet::Services {
 class JwtService : public IJwtService {
 public:
   std::string CreateJwtToken(std::string &userId);
-  bool VerifyJwtToken(std::string &token);
+  bool IsJwtTokenValid(std::string &token);
 };
 } // namespace Fleet::Services

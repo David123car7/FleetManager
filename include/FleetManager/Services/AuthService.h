@@ -34,6 +34,5 @@ public:
   }
   Result<> Register(Fleet::Entitys::User &user);
   Result<std::string> Login(LoginRequest req);
-  bool IsAuthenticated(std::string &token);
 };
 } // namespace Fleet::Services

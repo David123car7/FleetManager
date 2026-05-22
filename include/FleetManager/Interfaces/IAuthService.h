@@ -12,7 +12,6 @@ namespace Fleet::Interfaces {
 struct IAuthService {
   virtual Result<> Register(User &user) = 0;
   virtual Result<std::string> Login(LoginRequest req) = 0;
-  virtual bool IsAuthenticated(std::string &token) = 0;
   virtual ~IAuthService() = default;
 };
 } // namespace Fleet::Interfaces

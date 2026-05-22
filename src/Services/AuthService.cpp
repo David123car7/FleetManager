@@ -48,8 +48,4 @@ Result<std::string> AuthService::Login(LoginRequest req) {
                                         crow::status::INTERNAL_SERVER_ERROR);
   }
 }
-
-bool AuthService::IsAuthenticated(std::string &token) {
-  return jwt->VerifyJwtToken(token);
-}
 } // namespace Fleet::Services
