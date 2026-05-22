@@ -1,10 +1,10 @@
-#include "FleetManager/Services/JwtService.h"
+#include "cppapi/Services/JwtService.h"
 #include <exception>
 #include <jwt-cpp/jwt.h>
 #include <jwt-cpp/traits/nlohmann-json/traits.h>
 #include <string>
 
-namespace Fleet::Services {
+namespace API::Services {
 std::string JwtService::CreateJwtToken(std::string &userId) {
   const auto time = jwt::date::clock::now();
   return jwt::create<jwt::traits::nlohmann_json>()
@@ -26,4 +26,4 @@ bool JwtService::IsJwtTokenValid(std::string &token) {
   }
   return true;
 }
-} // namespace Fleet::Services
+} // namespace API::Services

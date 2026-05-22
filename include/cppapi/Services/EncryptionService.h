@@ -1,9 +1,9 @@
 #pragma once
 
-#include "FleetManager/Interfaces/IEncryptionService.h"
+#include "cppapi/Interfaces/IEncryptionService.h"
 #include <string>
 
-using Fleet::Interfaces::IEncryptionService;
+using API::Interfaces::IEncryptionService;
 
 class EncryptionService : public IEncryptionService {
 private:

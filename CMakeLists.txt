@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(FleetManager)
+project(cpp-rest-api)
 set(CMAKE_CXX_STANDARD_20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) #for the nvim lsp see cmake 
 
@@ -12,7 +12,7 @@ find_package(nlohmann_json REQUIRED)
 
 add_subdirectory(src/Middlewares)
 add_subdirectory(src/Services)
-add_executable(FleetManager src/main.cpp)
+add_executable(cpp-rest-api src/main.cpp)
 
-target_include_directories(FleetManager PRIVATE include) 
-target_link_libraries(FleetManager PRIVATE  nlohmann_json::nlohmann_json jwt-cpp::jwt-cpp libsodium::libsodium gssapi_krb5 libpqxx::pqxx Crow::Crow Middlewares Services) 
+target_include_directories(cpp-rest-api PRIVATE include) 
+target_link_libraries(cpp-rest-api PRIVATE  nlohmann_json::nlohmann_json jwt-cpp::jwt-cpp libsodium::libsodium gssapi_krb5 libpqxx::pqxx Crow::Crow Middlewares Services) 

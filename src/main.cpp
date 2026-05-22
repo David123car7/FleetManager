@@ -1,8 +1,8 @@
-#include "FleetManager/Controllers/AuthController.h"
-#include "FleetManager/Middlewares/AuthMiddleware.h"
-#include "FleetManager/Services/AuthService.h"
-#include "FleetManager/Services/EncryptionService.h"
-#include "FleetManager/Services/JwtService.h"
+#include "cppapi/Controllers/AuthController.h"
+#include "cppapi/Middlewares/AuthMiddleware.h"
+#include "cppapi/Services/AuthService.h"
+#include "cppapi/Services/EncryptionService.h"
+#include "cppapi/Services/JwtService.h"
 #include <crow/app.h>
 #include <memory>
 #include <pqxx/pqxx>
@@ -10,14 +10,14 @@
 #include <sodium/core.h>
 #include <stdexcept>
 
-using Fleet::Controllers::AuthController;
-using Fleet::Middlewares::AuthMiddleware;
-using Fleet::Services::AuthService;
-using Fleet::Services::JwtService;
+using API::Controllers::AuthController;
+using API::Middlewares::AuthMiddleware;
+using API::Services::AuthService;
+using API::Services::JwtService;
 
 int main() {
   auto dbConnection = std::make_shared<pqxx::connection>(
-      "postgresql://cutlass:black@localhost:5432/fleet-manager-db");
+      "postgresql://cutlass:black@localhost:5432/cpp-rest-api-db");
 
   auto encryptionService = std::make_shared<EncryptionService>();
   if (sodium_init() < 0)

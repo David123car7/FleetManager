@@ -1,13 +1,13 @@
 #pragma once
 
 #include "crow/http_response.h"
-#include <FleetManager/Interfaces/IJwtService.h>
+#include <cppapi/Interfaces/IJwtService.h>
 #include <stdexcept>
 #include <string>
 
-using Fleet::Interfaces::IJwtService;
+using API::Interfaces::IJwtService;
 
-namespace Fleet::Middlewares {
+namespace API::Middlewares {
 class AuthMiddleware {
 private:
   std::shared_ptr<IJwtService> jwt;
@@ -24,4 +24,4 @@ public:
   void before_handle(crow::request &req, crow::response &res, context &ctx);
   void after_handle(crow::request &req, crow::response &res, context &ctx);
 };
-} // namespace Fleet::Middlewares
+} // namespace API::Middlewares

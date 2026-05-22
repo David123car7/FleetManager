@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: cutlass
       POSTGRES_PASSWORD: black 
-      POSTGRES_DB: fleet-manager-db
+      POSTGRES_DB: cpp-rest-api-db
     ports:
       - "5432:5432"
 

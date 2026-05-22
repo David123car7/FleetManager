@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace Fleet::Models {
+namespace API::Models {
 template <class T = std::nullptr_t> class Result {
 private:
   const std::optional<T> data;
@@ -59,4 +59,4 @@ public:
     return json;
   }
 };
-} // namespace Fleet::Models
+} // namespace API::Models

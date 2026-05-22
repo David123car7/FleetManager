@@ -1,9 +1,9 @@
-DROP DATABASE IF EXISTS fleet-manager-db;
+DROP DATABASE IF EXISTS cpp-rest-api-db;
 
 CREATE SCHEMA if NOT EXISTS public;
 
 CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY, 
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(), 
   email VARCHAR(255) UNIQUE NOT NULL,
   password TEXT NOT NULL
 );

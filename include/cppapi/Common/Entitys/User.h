@@ -5,7 +5,7 @@
 #include <pqxx/pqxx>
 #include <string>
 
-namespace Fleet::Entitys {
+namespace API::Entitys {
 struct User {
   std::string id;
   std::string email;
@@ -22,4 +22,4 @@ struct User {
     password = result["password"].as<std::string>();
   }
 };
-} // namespace Fleet::Entitys
+} // namespace API::Entitys

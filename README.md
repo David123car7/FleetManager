@@ -1,5 +1,5 @@
-# FleetManager
-A Star Citizen fleet manager application developed with c++.
+# cpp-rest-api
+A C++ REST API application.
 
 # How to run
 

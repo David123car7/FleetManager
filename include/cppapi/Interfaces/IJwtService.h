@@ -2,10 +2,10 @@
 
 #include <string>
 
-namespace Fleet::Interfaces {
+namespace API::Interfaces {
 struct IJwtService {
   virtual std::string CreateJwtToken(std::string &userId) = 0;
   virtual bool IsJwtTokenValid(std::string &token) = 0;
   virtual ~IJwtService() = default;
 };
-} // namespace Fleet::Interfaces
+} // namespace API::Interfaces

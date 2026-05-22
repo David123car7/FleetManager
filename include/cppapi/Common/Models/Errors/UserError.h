@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FleetManager/Common/Models/Errors/Error.h"
+#include "cppapi/Common/Models/Errors/Error.h"
 
-namespace Fleet::Models::Errors {
+namespace API::Models::Errors {
 struct UserError : Error {
 private:
   UserError(std::string message) : Error{message} {}
@@ -15,4 +15,4 @@ public:
   static UserError WrongPassword() { return UserError("wrong_password"); }
   static UserError UserNotExist() { return UserError("user_not_exist"); }
 };
-} // namespace Fleet::Models::Errors
+} // namespace API::Models::Errors

@@ -3,7 +3,7 @@
 #include <crow/json.h>
 #include <string>
 
-namespace Fleet::Models::Requests::Users {
+namespace API::Models::Requests::Users {
 struct LoginRequest {
   std::string email;
   std::string password;
@@ -13,4 +13,4 @@ struct LoginRequest {
     password = body["password"].s();
   }
 };
-} // namespace Fleet::Models::Requests::Users
+} // namespace API::Models::Requests::Users

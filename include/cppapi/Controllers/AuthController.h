@@ -1,11 +1,11 @@
 #pragma once
 
-#include "FleetManager/Common/Constants/Routes.h"
-#include "FleetManager/Common/Models/Errors/AuthError.h"
-#include "FleetManager/Common/Models/Errors/UserError.h"
-#include "FleetManager/Common/Models/Results/Result.h"
-#include "FleetManager/Interfaces/IAuthService.h"
-#include "FleetManager/Services/AuthService.h"
+#include "cppapi/Common/Constants/Routes.h"
+#include "cppapi/Common/Models/Errors/AuthError.h"
+#include "cppapi/Common/Models/Errors/UserError.h"
+#include "cppapi/Common/Models/Results/Result.h"
+#include "cppapi/Interfaces/IAuthService.h"
+#include "cppapi/Services/AuthService.h"
 #include <crow/app.h>
 #include <crow/common.h>
 #include <crow/http_response.h>
@@ -13,12 +13,12 @@
 #include <memory>
 #include <stdexcept>
 
-using Fleet::Interfaces::IAuthService;
-using Fleet::Models::Result;
-using Fleet::Models::Errors::AuthError;
-using Fleet::Models::Errors::UserError;
+using API::Interfaces::IAuthService;
+using API::Models::Result;
+using API::Models::Errors::AuthError;
+using API::Models::Errors::UserError;
 
-namespace Fleet::Controllers {
+namespace API::Controllers {
 class AuthController {
 private:
   std::shared_ptr<IAuthService> authService = nullptr;
@@ -47,7 +47,7 @@ template <class... T> void AuthController::Register(crow::App<T...> &app) {
         if (!x) {
           return crow::response(crow::status::BAD_REQUEST);
         }
-        Fleet::Entitys::User user(x);
+        API::Entitys::User user(x);
         auto res = authService->Register(user);
         return crow::response(res.GetHttpCode(), res);
       });
@@ -65,4 +65,4 @@ template <class... T> void AuthController::Login(crow::App<T...> &app) {
         return crow::response(res.GetHttpCode(), res);
       });
 }
-} // namespace Fleet::Controllers
+} // namespace API::Controllers

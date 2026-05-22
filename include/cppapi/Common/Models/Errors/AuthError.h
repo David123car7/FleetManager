@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FleetManager/Common/Models/Errors/Error.h"
+#include "cppapi/Common/Models/Errors/Error.h"
 
-namespace Fleet::Models::Errors {
+namespace API::Models::Errors {
 struct AuthError : Error {
 private:
   AuthError(std::string message) : Error{message} {}
@@ -17,4 +17,4 @@ public:
     return AuthError("invalid_auth_token");
   }
 };
-} // namespace Fleet::Models::Errors
+} // namespace API::Models::Errors

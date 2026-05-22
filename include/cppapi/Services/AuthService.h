@@ -1,19 +1,19 @@
 #pragma once
 
-#include "FleetManager/Common/Entitys/User.h"
-#include "FleetManager/Interfaces/IAuthService.h"
-#include "FleetManager/Interfaces/IEncryptionService.h"
-#include "FleetManager/Interfaces/IJwtService.h"
+#include "cppapi/Common/Entitys/User.h"
+#include "cppapi/Interfaces/IAuthService.h"
+#include "cppapi/Interfaces/IEncryptionService.h"
+#include "cppapi/Interfaces/IJwtService.h"
 #include "memory"
 #include <memory>
 #include <pqxx/pqxx>
 #include <stdexcept>
 
-using Fleet::Interfaces::IAuthService;
-using Fleet::Interfaces::IEncryptionService;
-using Fleet::Interfaces::IJwtService;
+using API::Interfaces::IAuthService;
+using API::Interfaces::IEncryptionService;
+using API::Interfaces::IJwtService;
 
-namespace Fleet::Services {
+namespace API::Services {
 class AuthService : public IAuthService {
 private:
   std::shared_ptr<pqxx::connection> dbConnection = nullptr;
@@ -32,7 +32,7 @@ public:
     if (jwt == nullptr)
       throw std::invalid_argument("Invalid jwt service");
   }
-  Result<> Register(Fleet::Entitys::User &user);
+  Result<> Register(API::Entitys::User &user);
   Result<std::string> Login(LoginRequest req);
 };
-} // namespace Fleet::Services
+} // namespace API::Services

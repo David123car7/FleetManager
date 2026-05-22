@@ -1,7 +1,7 @@
-#include "FleetManager/Middlewares/AuthMiddleware.h"
+#include "cppapi/Middlewares/AuthMiddleware.h"
 #include <crow/common.h>
 
-namespace Fleet::Middlewares {
+namespace API::Middlewares {
 void AuthMiddleware::before_handle(crow::request &req, crow::response &res,
                                    context &ctx) {
   if (IsRouteProtected(req.url)) {
@@ -25,4 +25,4 @@ bool AuthMiddleware::IsRouteProtected(std::string &route) {
   }
   return key == "private";
 }
-} // namespace Fleet::Middlewares
+} // namespace API::Middlewares

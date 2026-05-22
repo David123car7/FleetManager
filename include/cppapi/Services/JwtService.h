@@ -1,13 +1,13 @@
 #pragma once
 
-#include "FleetManager/Interfaces/IJwtService.h"
+#include "cppapi/Interfaces/IJwtService.h"
 
-using Fleet::Interfaces::IJwtService;
+using API::Interfaces::IJwtService;
 
-namespace Fleet::Services {
+namespace API::Services {
 class JwtService : public IJwtService {
 public:
   std::string CreateJwtToken(std::string &userId);
   bool IsJwtTokenValid(std::string &token);
 };
-} // namespace Fleet::Services
+} // namespace API::Services

@@ -1,15 +1,15 @@
-#include "FleetManager/Services/AuthService.h"
-#include "FleetManager/Common/Entitys/User.h"
-#include "FleetManager/Common/Models/Errors/UserError.h"
-#include "FleetManager/Interfaces/IAuthService.h"
+#include "cppapi/Services/AuthService.h"
+#include "cppapi/Common/Entitys/User.h"
+#include "cppapi/Common/Models/Errors/UserError.h"
+#include "cppapi/Interfaces/IAuthService.h"
 #include <crow/common.h>
 #include <exception>
 #include <string>
 
-using Fleet::Entitys::User;
-using Fleet::Models::Errors::UserError;
+using API::Entitys::User;
+using API::Models::Errors::UserError;
 
-namespace Fleet::Services {
+namespace API::Services {
 Result<> AuthService::Register(User &user) {
   pqxx::work tx{*dbConnection};
   std::string hashedPassword = encryption->HashPassword(user.password);
@@ -48,4 +48,4 @@ Result<std::string> AuthService::Login(LoginRequest req) {
                                         crow::status::INTERNAL_SERVER_ERROR);
   }
 }
-} // namespace Fleet::Services
+} // namespace API::Services
