@@ -1,17 +1,16 @@
-#include "FleetManager/Services/UsersService.h"
+#include "FleetManager/Services/AuthService.h"
 #include "FleetManager/Common/Entitys/User.h"
-#include "FleetManager/Controllers/UsersController.h"
-#include "FleetManager/Interfaces/IUsersService.h"
+#include "FleetManager/Common/Models/Errors/UserError.h"
+#include "FleetManager/Interfaces/IAuthService.h"
 #include <crow/common.h>
 #include <exception>
-#include <jwt-cpp/jwt.h>
-#include <jwt-cpp/traits/nlohmann-json/traits.h>
 #include <string>
 
 using Fleet::Entitys::User;
+using Fleet::Models::Errors::UserError;
 
 namespace Fleet::Services {
-Result<> UsersService::Register(User &user) {
+Result<> AuthService::Register(User &user) {
   pqxx::work tx{*dbConnection};
   std::string hashedPassword = encryption->HashPassword(user.password);
   try {
@@ -29,22 +28,14 @@ Result<> UsersService::Register(User &user) {
   return Result<>::Sucess();
 }
 
-Result<std::string> UsersService::Login(LoginRequest req) {
+Result<std::string> AuthService::Login(LoginRequest req) {
   try {
     pqxx::work tx{*dbConnection};
-    std::string storedPassword = tx.query_value<std::string>(
-        "SELECT password FROM Users WHERE email = $1", pqxx::params{req.email});
-    if (encryption->IsPasswordValid(storedPassword, req.password)) {
-      const auto time = jwt::date::clock::now();
-      const auto token = jwt::create<jwt::traits::nlohmann_json>()
-                             .set_type("JWT")
-                             .set_id(req.email)
-                             .set_issuer("FleetManager")
-                             .set_audience("FlletManagerClient")
-                             .set_payload_claim("user_id", req.email)
-                             .set_issued_at(time)
-                             .set_expires_at(time + std::chrono::minutes{2})
-                             .sign(jwt::algorithm::none{});
+    User user{
+        tx.exec("SELECT * FROM Users WHERE email = $1", pqxx::params{req.email})
+            .one_row()};
+    if (encryption->IsPasswordValid(user.password, req.password)) {
+      std::string token = jwt->CreateJwtToken(user.id);
       return Result<std::string>::Sucess(200, token);
     } else
       return Result<std::string>::Failure(UserError::WrongPassword(),
@@ -56,5 +47,9 @@ Result<std::string> UsersService::Login(LoginRequest req) {
     return Result<std::string>::Failure(e.what(),
                                         crow::status::INTERNAL_SERVER_ERROR);
   }
+}
+
+bool AuthService::IsAuthenticated(std::string &token) {
+  return jwt->VerifyJwtToken(token);
 }
 } // namespace Fleet::Services

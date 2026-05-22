@@ -7,13 +7,15 @@
 #include <string>
 
 namespace Fleet::Models {
-template <class T = std::nullptr_t> struct Result {
+template <class T = std::nullptr_t> class Result {
+private:
   const std::optional<T> data;
   const std::optional<std::string> message;
-  int httpCode;
+  std::optional<int> httpCode;
 
+public:
   Result(std::optional<T> data, std::optional<std::string> message,
-         int httpCode)
+         std::optional<int> httpCode)
       : data{data}, message{message}, httpCode{httpCode} {}
 
   static Result Sucess(int httpCode = crow::status::OK,
@@ -22,8 +24,30 @@ template <class T = std::nullptr_t> struct Result {
     return {data, message, httpCode};
   }
 
-  static Result Failure(std::string message, int httpCode) {
+  static Result Failure(std::string message,
+                        std::optional<int> httpCode = std::nullopt) {
     return {std::nullopt, message, httpCode};
+  }
+
+  int GetHttpCode() {
+    if (httpCode.has_value())
+      return httpCode.value();
+    else
+      return -1;
+  }
+
+  std::string GetMessage() {
+    if (message.has_value())
+      return message.value();
+    else
+      return "";
+  }
+
+  T GetDate() {
+    if (data.has_value())
+      return data;
+    else
+      return {};
   }
 
   operator crow::json::wvalue() {

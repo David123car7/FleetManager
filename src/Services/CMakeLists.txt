@@ -1,4 +1,4 @@
-add_library(Services UsersService.cpp EncryptionService.cpp)
+add_library(Services AuthService.cpp EncryptionService.cpp JwtService.cpp)
 
 target_include_directories(Services PRIVATE ../../include/)
 

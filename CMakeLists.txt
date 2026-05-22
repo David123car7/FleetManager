@@ -10,10 +10,9 @@ find_package(libsodium REQUIRED)
 find_package(jwt-cpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
-add_subdirectory(src/Controllers)
 add_subdirectory(src/Middlewares)
 add_subdirectory(src/Services)
 add_executable(FleetManager src/main.cpp)
 
 target_include_directories(FleetManager PRIVATE include) 
-target_link_libraries(FleetManager PRIVATE  nlohmann_json::nlohmann_json jwt-cpp::jwt-cpp libsodium::libsodium gssapi_krb5 libpqxx::pqxx Crow::Crow Controllers Middlewares Services) 
+target_link_libraries(FleetManager PRIVATE  nlohmann_json::nlohmann_json jwt-cpp::jwt-cpp libsodium::libsodium gssapi_krb5 libpqxx::pqxx Crow::Crow Middlewares Services) 

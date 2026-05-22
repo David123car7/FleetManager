@@ -1,7 +1,8 @@
-#include "FleetManager/Controllers/UsersController.h"
+#include "FleetManager/Controllers/AuthController.h"
 #include "FleetManager/Middlewares/AuthMiddleware.h"
+#include "FleetManager/Services/AuthService.h"
 #include "FleetManager/Services/EncryptionService.h"
-#include "FleetManager/Services/UsersService.h"
+#include "FleetManager/Services/JwtService.h"
 #include <crow/app.h>
 #include <memory>
 #include <pqxx/pqxx>
@@ -9,9 +10,10 @@
 #include <sodium/core.h>
 #include <stdexcept>
 
-using Fleet::Controllers::UsersController;
+using Fleet::Controllers::AuthController;
 using Fleet::Middlewares::AuthMiddleware;
-using Fleet::Services::UsersService;
+using Fleet::Services::AuthService;
+using Fleet::Services::JwtService;
 
 int main() {
   auto dbConnection = std::make_shared<pqxx::connection>(
@@ -21,14 +23,16 @@ int main() {
   if (sodium_init() < 0)
     throw std::runtime_error("Failed sodium");
 
-  auto usersService =
-      std::make_shared<UsersService>(dbConnection, encryptionService);
+  auto jwtService = std::make_shared<JwtService>();
 
-  UsersController usersController(usersService);
+  auto authService = std::make_shared<AuthService>(
+      dbConnection, encryptionService, jwtService);
+
+  AuthController authController(authService);
 
   crow::App<AuthMiddleware> app;
 
-  usersController.Start(app);
+  authController.Start(app);
 
   app.port(18080).run();
 

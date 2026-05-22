@@ -2,8 +2,8 @@ DROP DATABASE IF EXISTS fleet-manager-db;
 
 CREATE SCHEMA if NOT EXISTS public;
 
-CREATE table if not EXISTS Users (
-  email VARCHAR(50) UNIQUE,
-  password VARCHAR(250)
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY, 
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password TEXT NOT NULL
 );
-
