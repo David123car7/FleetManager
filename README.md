@@ -1,5 +1,6 @@
 # cpp-rest-api
-A C++ REST API application.
+
+A C++ REST API that provides a solid foundation for building http applications. It includes JWT-based authentication, password encryption, login and registration with database connectivity, making it a good base/template for new projects.
 
 # How to run
 
@@ -18,8 +19,8 @@ cmake --build build
 
 # Librarys
 
-- [Crow](https://github.com/CrowCpp/Crow)
-- [libpqxx](https://github.com/jtv/libpqxx)
-- [LibSodium](https://github.com/jedisct1/libsodium)
-- [jwt-cpp](https://github.com/Thalhammer/jwt-cpp)
-- [nlohmann_json](https://github.com/nlohmann/json) 
+- [Crow](https://github.com/CrowCpp/Crow) - HTTP server framework 
+- [libpqxx](https://github.com/jtv/libpqxx) - PostgreSQL client for database access.
+- [LibSodium](https://github.com/jedisct1/libsodium) - Password hashing and crypto utilities.
+- [jwt-cpp](https://github.com/Thalhammer/jwt-cpp) - JWT creation and validation.
+- [nlohmann_json](https://github.com/nlohmann/json) - JSON parsing and serialization.
