@@ -2,8 +2,8 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: cutlass
-      POSTGRES_PASSWORD: black 
+      POSTGRES_USER: david123car7
+      POSTGRES_PASSWORD: kazzio 
       POSTGRES_DB: cpp-rest-api-db
     ports:
       - "5432:5432"
