@@ -4,9 +4,9 @@
 namespace API::Middlewares {
 void AuthMiddleware::before_handle(crow::request &req, crow::response &res,
                                    context &ctx) {
-  if (IsRouteProtected(req.url)) {
+  if (IsProtectedRoute(req.url)) {
     std::string token = req.get_header_value("Authorization");
-    if (!jwt->IsJwtTokenValid(token)) {
+    if (!jwt->IsJwtTokenValid(token, IsAdminRoute(req.url))) {
       res.code = crow::status::UNAUTHORIZED;
       res.end();
     }
@@ -16,7 +16,7 @@ void AuthMiddleware::before_handle(crow::request &req, crow::response &res,
 void AuthMiddleware::after_handle(crow::request &req, crow::response &res,
                                   context &ctx) {}
 
-bool AuthMiddleware::IsRouteProtected(std::string &route) {
+bool AuthMiddleware::IsProtectedRoute(std::string &route) {
   std::string key = "";
   for (int i = 1; i < route.size(); i++) {
     if (route[i] == '/')
@@ -24,5 +24,20 @@ bool AuthMiddleware::IsRouteProtected(std::string &route) {
     key += route[i];
   }
   return key == "private";
+}
+
+bool AuthMiddleware::IsAdminRoute(std::string &route) {
+  std::string key = "";
+  int count = 0;
+  for (int i = 1; i < route.size(); i++) {
+    if (count == 2) {
+      break;
+    } else if (route[i] == '/') {
+      count++;
+    } else if (count == 1) {
+      key += route[i];
+    }
+  }
+  return key == "admin";
 }
 } // namespace API::Middlewares

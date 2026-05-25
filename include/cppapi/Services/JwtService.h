@@ -7,7 +7,7 @@ using API::Interfaces::IJwtService;
 namespace API::Services {
 class JwtService : public IJwtService {
 public:
-  std::string CreateJwtToken(std::string &userId);
-  bool IsJwtTokenValid(std::string &token);
+  std::string CreateJwtToken(std::string &userId, bool isAdmin);
+  bool IsJwtTokenValid(std::string &token, bool isAdmin);
 };
 } // namespace API::Services

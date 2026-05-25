@@ -35,7 +35,7 @@ Result<std::string> AuthService::Login(LoginRequest req) {
         tx.exec("SELECT * FROM Users WHERE email = $1", pqxx::params{req.email})
             .one_row()};
     if (encryption->IsPasswordValid(user.password, req.password)) {
-      std::string token = jwt->CreateJwtToken(user.id);
+      std::string token = jwt->CreateJwtToken(user.id, user.isAdmin);
       return Result<std::string>::Sucess(200, token);
     } else
       return Result<std::string>::Failure(UserError::WrongPassword(),

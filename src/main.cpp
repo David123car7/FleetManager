@@ -17,7 +17,7 @@ using API::Services::JwtService;
 
 int main() {
   auto dbConnection = std::make_shared<pqxx::connection>(
-      "postgresql://cutlass:black@localhost:5432/cpp-rest-api-db");
+      "postgresql://david123car7:kazzio@localhost:5432/cpp-rest-api-db");
 
   auto encryptionService = std::make_shared<EncryptionService>();
   if (sodium_init() < 0)

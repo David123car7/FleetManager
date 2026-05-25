@@ -20,7 +20,8 @@ public:
   }
 
   class context {};
-  bool IsRouteProtected(std::string &route);
+  bool IsProtectedRoute(std::string &route);
+  bool IsAdminRoute(std::string &route);
   void before_handle(crow::request &req, crow::response &res, context &ctx);
   void after_handle(crow::request &req, crow::response &res, context &ctx);
 };

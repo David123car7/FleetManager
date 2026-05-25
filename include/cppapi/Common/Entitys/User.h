@@ -10,6 +10,7 @@ struct User {
   std::string id;
   std::string email;
   std::string password;
+  bool isAdmin;
 
   User(crow::json::rvalue body) {
     email = body["email"].s();
@@ -20,6 +21,7 @@ struct User {
     id = result["id"].as<std::string>();
     email = result["email"].as<std::string>();
     password = result["password"].as<std::string>();
+    isAdmin = result["isAdmin"].as<bool>();
   }
 };
 } // namespace API::Entitys
