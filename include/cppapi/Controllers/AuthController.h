@@ -47,8 +47,16 @@ template <class... T> void AuthController::Register(crow::App<T...> &app) {
         if (!x) {
           return crow::response(crow::status::BAD_REQUEST);
         }
-        API::Entitys::User user(x);
-        auto res = authService->Register(user);
+        RegisterRequest regReq{x};
+        if (regReq.email.empty()) {
+          return crow::response(crow::status::BAD_REQUEST,
+                                Result<>::Failure(UserError::EmptyEmail()));
+        }
+        if (regReq.password.empty()) {
+          return crow::response(crow::status::BAD_REQUEST,
+                                Result<>::Failure(UserError::EmptyPassword()));
+        }
+        auto res = authService->Register(regReq);
         return crow::response(res.GetHttpCode(), res);
       });
 }

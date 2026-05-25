@@ -1,5 +1,5 @@
 services:
-  postgres:
+  postgres-dev:
     image: postgres
     environment:
       POSTGRES_USER: david123car7
@@ -7,4 +7,11 @@ services:
       POSTGRES_DB: cpp-rest-api-db
     ports:
       - "5432:5432"
-
+  postgres-tests:
+    image: postgres
+    environment:
+      POSTGRES_USER: test 
+      POSTGRES_PASSWORD: test 
+      POSTGRES_DB: cpp-rest-api-db-tests
+    ports:
+      - "5433:5432"

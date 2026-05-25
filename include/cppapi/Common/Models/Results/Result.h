@@ -3,14 +3,16 @@
 #include <crow/common.h>
 #include <crow/json.h>
 #include <cstddef>
+#include <nlohmann/json_fwd.hpp>
 #include <optional>
+#include <stdexcept>
 #include <string>
 
 namespace API::Models {
 template <class T = std::nullptr_t> class Result {
 private:
-  const std::optional<T> data;
-  const std::optional<std::string> message;
+  std::optional<T> data;
+  std::optional<std::string> message;
   std::optional<int> httpCode;
 
 public:
@@ -27,6 +29,16 @@ public:
   static Result Failure(std::string message,
                         std::optional<int> httpCode = std::nullopt) {
     return {std::nullopt, message, httpCode};
+  }
+
+  Result(std::string &jsonBody) {
+    auto json = crow::json::load(jsonBody);
+    if (!json)
+      throw std::invalid_argument("Invalid Json Body");
+    if (json.has("data"))
+      data = (T)json["data"];
+    if (json.has("message"))
+      message = json["message"].s();
   }
 
   int GetHttpCode() {

@@ -10,12 +10,12 @@ using API::Entitys::User;
 using API::Models::Errors::UserError;
 
 namespace API::Services {
-Result<> AuthService::Register(User &user) {
+Result<> AuthService::Register(RegisterRequest &req) {
   pqxx::work tx{*dbConnection};
-  std::string hashedPassword = encryption->HashPassword(user.password);
+  std::string hashedPassword = encryption->HashPassword(req.password);
   try {
     tx.exec("INSERT INTO Users (email, password) VALUES ($1, $2)",
-            pqxx::params{user.email, hashedPassword});
+            pqxx::params{req.email, hashedPassword});
     tx.commit();
   } catch (pqxx::sql_error sql_error) {
     if (sql_error.sqlstate() == "23505")

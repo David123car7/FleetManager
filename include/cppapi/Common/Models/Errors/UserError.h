@@ -14,5 +14,11 @@ public:
   static UserError InvalidPassword() { return UserError("invalid_password"); }
   static UserError WrongPassword() { return UserError("wrong_password"); }
   static UserError UserNotExist() { return UserError("user_not_exist"); }
+  static UserError EmptyEmail() { return UserError("empty_email"); }
+  static UserError EmptyPassword() { return UserError("empty_password"); }
+
+  friend bool operator==(const std::string &msg, const UserError &userError) {
+    return userError.message == msg;
+  }
 };
 } // namespace API::Models::Errors
