@@ -24,3 +24,6 @@ cmake --build build
 - [LibSodium](https://github.com/jedisct1/libsodium) - Password hashing and crypto utilities.
 - [jwt-cpp](https://github.com/Thalhammer/jwt-cpp) - JWT creation and validation.
 - [nlohmann_json](https://github.com/nlohmann/json) - JSON parsing and serialization.
+- [doctest](https://github.com/doctest/doctest/tree/master) - Testing framework
+
+  
