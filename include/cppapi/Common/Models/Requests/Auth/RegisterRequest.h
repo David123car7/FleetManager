@@ -12,7 +12,7 @@ struct RegisterRequest {
   RegisterRequest(std::string email, std::string password)
       : email{email}, password{password} {}
 
-  RegisterRequest(crow::json::rvalue body) {
+  RegisterRequest(const crow::json::rvalue &body) {
     email = body["email"].s();
     password = body["password"].s();
   }

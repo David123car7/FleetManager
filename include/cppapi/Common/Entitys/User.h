@@ -12,12 +12,12 @@ struct User {
   std::string password;
   bool isAdmin;
 
-  User(crow::json::rvalue body) {
+  User(const crow::json::rvalue &body) {
     email = body["email"].s();
     password = body["password"].s();
   }
 
-  User(pqxx::row result) {
+  User(const pqxx::row &result) {
     id = result["id"].as<std::string>();
     email = result["email"].as<std::string>();
     password = result["password"].as<std::string>();

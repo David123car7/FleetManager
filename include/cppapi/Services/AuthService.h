@@ -33,6 +33,6 @@ public:
       throw std::invalid_argument("Invalid jwt service");
   }
   Result<> Register(RegisterRequest &req);
-  Result<std::string> Login(LoginRequest req);
+  Result<std::string> Login(LoginRequest &req);
 };
 } // namespace API::Services

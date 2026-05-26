@@ -12,7 +12,7 @@ struct LoginRequest {
   LoginRequest(std::string email, std::string password)
       : email{email}, password{password} {}
 
-  LoginRequest(crow::json::rvalue body) {
+  LoginRequest(const crow::json::rvalue &body) {
     email = body["email"].s();
     password = body["password"].s();
   }

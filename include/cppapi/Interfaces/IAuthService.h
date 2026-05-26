@@ -13,7 +13,7 @@ using API::Models::Requests::Auth::RegisterRequest;
 namespace API::Interfaces {
 struct IAuthService {
   virtual Result<> Register(RegisterRequest &req) = 0;
-  virtual Result<std::string> Login(LoginRequest req) = 0;
+  virtual Result<std::string> Login(LoginRequest &req) = 0;
   virtual ~IAuthService() = default;
 };
 } // namespace API::Interfaces
