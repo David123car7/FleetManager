@@ -28,7 +28,7 @@ Result<> AuthService::Register(RegisterRequest &req) {
   return Result<>::Sucess();
 }
 
-Result<std::string> AuthService::Login(LoginRequest req) {
+Result<std::string> AuthService::Login(LoginRequest &req) {
   try {
     pqxx::work tx{*dbConnection};
     User user{
