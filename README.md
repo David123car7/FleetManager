@@ -4,17 +4,35 @@ A C++ REST API that provides a solid foundation for building http applications. 
 
 # How to run
 
-## Install packages
+### Install packages
 
 ```bash
 conan install . --output-folder=build --build=missing
 ```
 
-## Build
+### Build
 
 ```bash
 cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=build/build/Release/generators/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build build
+```
+
+### Run database 
+
+```bash
+sudo docker compose -f docker-compose.yml up
+```
+
+### Run API
+
+```bash
+./build/cpp-rest-api
+```
+
+### Run TESTS
+
+```bash
+./build/tests/cpp-rest-api-tests
 ```
 
 # Librarys
