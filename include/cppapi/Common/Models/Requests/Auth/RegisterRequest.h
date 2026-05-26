@@ -18,10 +18,10 @@ struct RegisterRequest {
   }
 
   std::string ToString() const {
-    nlohmann::json j;
-    j["email"] = email;
-    j["password"] = password;
-    return j.dump();
+    crow::json::wvalue json;
+    json["email"] = email;
+    json["password"] = password;
+    return json.dump();
   }
 };
 } // namespace API::Models::Requests::Auth
