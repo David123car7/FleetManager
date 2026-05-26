@@ -16,6 +16,9 @@ public:
   static UserError UserNotExist() { return UserError("user_not_exist"); }
   static UserError EmptyEmail() { return UserError("empty_email"); }
   static UserError EmptyPassword() { return UserError("empty_password"); }
+  static UserError PasswordEqualsOldPassword() {
+    return UserError("password_equals_old_password");
+  }
 
   friend bool operator==(const std::string &msg, const UserError &userError) {
     return userError.message == msg;

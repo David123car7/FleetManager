@@ -12,7 +12,6 @@ public:
   static AuthError AuthHeaderMissing() {
     return AuthError("auth_header_missing");
   }
-
   static AuthError InvalidAuthToken() {
     return AuthError("invalid_auth_token");
   }

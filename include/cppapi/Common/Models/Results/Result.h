@@ -3,7 +3,6 @@
 #include <crow/common.h>
 #include <crow/json.h>
 #include <cstddef>
-#include <nlohmann/json_fwd.hpp>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -41,25 +40,25 @@ public:
       message = json["message"].s();
   }
 
-  int GetHttpCode() {
+  int GetHttpCode() const {
     if (httpCode.has_value())
       return httpCode.value();
     else
       return -1;
   }
 
-  std::string GetMessage() {
+  std::string GetMessage() const {
     if (message.has_value())
       return message.value();
     else
       return "";
   }
 
-  T GetDate() {
+  T GetData() const {
     if (data.has_value())
-      return data;
+      return data.value();
     else
-      return {};
+      return T{};
   }
 
   operator crow::json::wvalue() {

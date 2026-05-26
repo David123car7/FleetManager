@@ -1,8 +1,10 @@
 #include "cppapi/Controllers/AuthController.h"
+#include "cppapi/Controllers/UserController.h"
 #include "cppapi/Middlewares/AuthMiddleware.h"
 #include "cppapi/Services/AuthService.h"
 #include "cppapi/Services/EncryptionService.h"
 #include "cppapi/Services/JwtService.h"
+#include "cppapi/Services/UserService.h"
 #include <crow/app.h>
 #include <memory>
 #include <pqxx/pqxx>
@@ -11,9 +13,11 @@
 #include <stdexcept>
 
 using API::Controllers::AuthController;
+using API::Controllers::UserController;
 using API::Middlewares::AuthMiddleware;
 using API::Services::AuthService;
 using API::Services::JwtService;
+using API::Services::UserService;
 
 int main() {
   auto dbConnection = std::make_shared<pqxx::connection>(
@@ -28,12 +32,17 @@ int main() {
   auto authService = std::make_shared<AuthService>(
       dbConnection, encryptionService, jwtService);
 
+  auto userService = std::make_shared<UserService>(
+      dbConnection, encryptionService, jwtService);
+
   AuthController authController(authService);
+  UserController userController(userService);
 
   crow::App<AuthMiddleware> app;
   app.get_middleware<AuthMiddleware>() = AuthMiddleware(jwtService);
 
   authController.Start(app);
+  userController.Start(app);
 
   app.port(18080).run();
 
